@@ -15,10 +15,6 @@ body {
   align-items: center;
 }
 
-.hidden {
-  display: none;
-}
-
 .leaderboard {
 
 }
@@ -27,7 +23,10 @@ body {
   display: block;
   margin: 0 auto;
 }
-
+.correctanswer {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 
 .nextquestion {
   z-index: 1000;
@@ -36,6 +35,9 @@ body {
   bottom: 0;
   right: 0;
   left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .main_content {
   border-radius: 10px;
@@ -83,4 +85,9 @@ body {
 }
 .answer_no:active {
   box-shadow: 0px 7px 0px 0px #258cd1;
+}
+
+
+.hidden {
+  display: none;
 }
