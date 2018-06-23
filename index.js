@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.get('/question', (req, res) => {
+  return res.json(questions.length)
+})
+
 app.get('/question/:id', (req, res) => {
   const id = req.params.id
   if (id >= questions.length || id < 0) {
