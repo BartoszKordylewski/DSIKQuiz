@@ -15,6 +15,7 @@ const $nickname = document.querySelector('#nickname')
 const $showleaderboard = document.querySelector('#showleaderboard')
 const $back_button = document.querySelector('#back_button')
 const $percentage = document.querySelector('#percentage')
+const $pages = document.querySelector('#pages')
 const $result_span = document.querySelector('#result')
 
 let gameArray = []
@@ -132,7 +133,8 @@ function getNextQuestion() {
 
 function render() {
   $question.innerText = `${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
-  $percentage.innerText = `${currentQuestionIndex + 1} / ${questionsCount}`
+  $pages.innerText = `${currentQuestionIndex + 1} / ${questionsCount}`
+  $percentage.innerText = `${(calcPoints() / currentQuestionIndex * 100).toFixed(2)}%`
 }
 
 function showResults() {
@@ -140,15 +142,15 @@ function showResults() {
   results.forEach(el => {
     let div = document.createElement('div')
     div.innerHTML += `<div>
-    <p>${el.question}</p>
+    <p><b>${el.question}</b></p>
     <p>Twoja odpowiedź: ${el.playerAnswer}</p>
     <p>Poprawna odpowiedź: ${el.trueAnswer}</p>
     </div>`
     $results_box.appendChild(div)
   })
   $result_span.innerText = `
-  twój wynik to ${calcPoints()} / ${currentQuestionIndex + 1}
-  ${calcPoints() / (currentQuestionIndex + 1)}%
+  twój wynik to ${calcPoints()} / ${currentQuestionIndex}
+  ${(calcPoints() / currentQuestionIndex * 100).toFixed(2)}%
   `
   $results_box.classList.remove('hidden')
   $qanda_box.classList.add('hidden')
