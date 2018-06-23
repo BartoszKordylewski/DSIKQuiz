@@ -189,6 +189,13 @@ function loadLeaderboard(cb) {
 
 function showLeaderboard() {
   loadLeaderboard(records => {
+    records.sort((a, b) => {
+      let ratio1 = a.questions ? a.correct / a.questions : 0
+      let ratio2 = b.questions ? b.correct / b.questions : 0
+      console.log(ratio1, ratio2)
+      return  ratio1 > ratio2 ? -1 : ratio1 < ratio2 ? 1 : 0
+    })
+    console.log(records)
     let child = $leaderboard_box.querySelector('table')
     if (child) {
       $leaderboard_box.removeChild(child)
@@ -197,21 +204,29 @@ function showLeaderboard() {
     table.innerHTML += `<tr>
       <thead>
       <th>nick</th>
-      <th>poprawnych odpowiedzi</th>
-      <th>liczba pytań</th>
+      <th>poprawnych</th>
+      <th>pytań</th>
+      <th>ratio</th>
       <th>data</th>
       </thead>
     </tr>
     <tbody>`
     records.forEach(el => {
       table.innerHTML += `<tr>
-      <td>${el.nickname}</td>
+      <td>${stripHTML(el.nickname)}</td>
       <td>${el.correct}</td>
       <td>${el.questions}</td>
+      <td>${(el.correct / el.questions).toFixed(2)}</td>
       <td>${new Date(el.date).toLocaleString()}</td>
       </tr>`
     })
     table.innerHTML += `</tbody>`
     $leaderboard_box.appendChild(table)
   })
+}
+
+function stripHTML(html){
+  var temporalDivElement = document.createElement("div");
+  temporalDivElement.innerHTML = html;
+  return temporalDivElement.textContent || temporalDivElement.innerText || "";
 }
