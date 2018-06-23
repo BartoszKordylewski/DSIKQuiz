@@ -13,11 +13,12 @@ const $submit = document.querySelector('#submit')
 const $submit_wrapper = document.querySelector('#submit_wrapper')
 const $nickname = document.querySelector('#nickname')
 const $showleaderboard = document.querySelector('#showleaderboard')
+const $back_button = document.querySelector('#back_button')
 
 let gameArray = []
 let questionsCount
 let currentQuestionIndex = -1
-let answers = []
+
 init()
 
 function init() {
@@ -55,6 +56,7 @@ function assignEventListeners() {
   })
   $leaderboard.addEventListener('click', e => {
     $leaderboard_box.classList.remove('hidden')
+    $submit_wrapper.classList.remove('hidden')
     $results_box.classList.add('hidden')
   })
   $showleaderboard.addEventListener('click', e => {
@@ -62,6 +64,10 @@ function assignEventListeners() {
     $submit_wrapper.classList.add('hidden')
     $qanda_box.classList.add('hidden')
     showLeaderboard()
+  })
+  $back_button.addEventListener('click', e => {
+    $leaderboard_box.classList.add('hidden')
+    $qanda_box.classList.remove('hidden')
   })
 }
 function generateList() {
@@ -148,6 +154,7 @@ function submitHighScore() {
     questions: currentQuestionIndex
   })
   .then(() => {
+    gameArray = generateList()
     showLeaderboard()
   })
   .catch(err => {
@@ -175,6 +182,10 @@ function loadLeaderboard(cb) {
 
 function showLeaderboard() {
   loadLeaderboard(records => {
+    let child = $leaderboard_box.querySelector('table')
+    if (child) {
+      $leaderboard_box.removeChild(child)
+    }
     let table = document.createElement('table')
     table.innerHTML += `<tr>
       <th>nick</th>
