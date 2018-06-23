@@ -15,6 +15,7 @@ const $nickname = document.querySelector('#nickname')
 const $showleaderboard = document.querySelector('#showleaderboard')
 const $back_button = document.querySelector('#back_button')
 const $percentage = document.querySelector('#percentage')
+const $result_span = document.querySelector('#result')
 
 let gameArray = []
 let questionsCount
@@ -145,6 +146,10 @@ function showResults() {
     </div>`
     $results_box.appendChild(div)
   })
+  $result_span.innerText = `
+  twój wynik to ${calcPoints()} / ${currentQuestionIndex + 1}
+  ${calcPoints() / (currentQuestionIndex + 1)}%
+  `
   $results_box.classList.remove('hidden')
   $qanda_box.classList.add('hidden')
 }
@@ -153,7 +158,7 @@ function submitHighScore() {
   axios.post('leaderboard', {
     nickname: $nickname.value,
     correct: calcPoints(),
-    questions: currentQuestionIndex
+    questions: currentQuestionIndex + 1
   })
   .then(() => {
     gameArray = generateList()
