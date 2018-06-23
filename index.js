@@ -62,9 +62,12 @@ app.get('/leaderboard', (req, res) => {
 })
 
 app.post('/leaderboard', (req, res) => {
-  console.log(req.body)
+  let nick = req.body.nickname
+  if (nick.length > 64) {
+    nick = nick.substring(0, 64)
+  }
   const newRecord = new Record({
-    nickname: req.body.nickname,
+    nickname: nick,
     correct: req.body.correct,
     questions: req.body.questions
   })

@@ -24,6 +24,21 @@ body {
   height: 100%;
   overflow-y: auto;
 }
+.leaderboard table {
+  widows: 30px;
+}
+
+.leaderboard tr {
+  overflow-x: hidden;
+}
+
+.leaderboard td {
+  max-width: 50%;
+}
+
+.nextquestion {
+  background-color: rgba(240, 240, 240, 0.8);
+}
 
 .finish_button {
   display: block;

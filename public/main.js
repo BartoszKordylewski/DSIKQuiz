@@ -192,24 +192,22 @@ function showLeaderboard() {
     records.sort((a, b) => {
       let ratio1 = a.questions ? a.correct / a.questions : 0
       let ratio2 = b.questions ? b.correct / b.questions : 0
-      console.log(ratio1, ratio2)
       return  ratio1 > ratio2 ? -1 : ratio1 < ratio2 ? 1 : 0
     })
-    console.log(records)
     let child = $leaderboard_box.querySelector('table')
     if (child) {
       $leaderboard_box.removeChild(child)
     }
     let table = document.createElement('div').appendChild(document.createElement('table'))
-    table.innerHTML += `<tr>
+    table.innerHTML += `
       <thead>
       <th>nick</th>
       <th>poprawnych</th>
       <th>pytań</th>
       <th>ratio</th>
       <th>data</th>
+      </tr>
       </thead>
-    </tr>
     <tbody>`
     records.forEach(el => {
       table.innerHTML += `<tr>
@@ -225,8 +223,6 @@ function showLeaderboard() {
   })
 }
 
-function stripHTML(html){
-  var temporalDivElement = document.createElement("div");
-  temporalDivElement.innerHTML = html;
-  return temporalDivElement.textContent || temporalDivElement.innerText || "";
+function stripHTML(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
