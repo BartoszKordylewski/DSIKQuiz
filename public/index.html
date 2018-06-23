@@ -11,29 +11,35 @@
   <div class="wrapper">
     <article id="results_box" class="results hidden">
       <span id="result"></span>
-      <button id="leaderboard" class="leaderboard_button">zapisz swój wynik</button>
+      <button id="leaderboard" class="btn btn--gray">zapisz swój wynik</button>
     </article>
     <article id="leaderboard_box" class="leaderboard hidden">
       <div id="submit_wrapper" class="wrapper submit_wrapper">
         <label for="nickname">podaj nick: <input id="nickname" type="text"></label>
-        <button id="submit">wyślij</button>
+        <button id="submit" class="btn btn--gray">wyślij</button>
       </div>
-      <button id="back_button">powrót do quizu</button>
+      <button id="back_button" class="btn btn--gray">powrót do quizu</button>
     </article>
     <article id="qanda_box" class="main_content">
       <section class="question">
         <p id="question" class="question_content"></p>
       </section>
       <section class="answers">
-        <button id="yes" class="answer answer_yes">TAK</button>
-        <button id="no" class="answer answer_no">NIE</button>
+        <button id="yes" class="button button--yes">
+          <span class="button__inner">TAK</span>
+        </button>
+        <button id="no" class="button button--no">
+            <span class="button__inner">NIE</span>
+        </button>
       </section>
       <div id="nextquestion" class="nextquestion hidden">
         <p id="correctanswer" class="correctanswer hidden"></p>
       </div>
-      <p id="percentage"></p>
-      <button id="showleaderboard" class="show_button">pokaż najlepsze wyniki</button>
-      <button id="finish" class="finish_button">zakończ i przejdź do wyników</button>
+      <div class="options">
+        <button id="showleaderboard" class="btn btn--gray">pokaż najlepsze wyniki</button>
+        <p id="percentage" class="nbsp"></p>
+        <button id="finish" class="btn btn--gray">zakończ i przejdź do wyników</button>
+      </div>
     </article>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>

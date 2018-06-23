@@ -158,7 +158,7 @@ function submitHighScore() {
   axios.post('leaderboard', {
     nickname: $nickname.value,
     correct: calcPoints(),
-    questions: currentQuestionIndex + 1
+    questions: currentQuestionIndex
   })
   .then(() => {
     gameArray = generateList()
@@ -193,13 +193,16 @@ function showLeaderboard() {
     if (child) {
       $leaderboard_box.removeChild(child)
     }
-    let table = document.createElement('table')
+    let table = document.createElement('div').appendChild(document.createElement('table'))
     table.innerHTML += `<tr>
+      <thead>
       <th>nick</th>
       <th>poprawnych odpowiedzi</th>
       <th>liczba pytań</th>
       <th>data</th>
-    </tr>`
+      </thead>
+    </tr>
+    <tbody>`
     records.forEach(el => {
       table.innerHTML += `<tr>
       <td>${el.nickname}</td>
@@ -208,6 +211,7 @@ function showLeaderboard() {
       <td>${new Date(el.date).toLocaleString()}</td>
       </tr>`
     })
+    table.innerHTML += `</tbody>`
     $leaderboard_box.appendChild(table)
   })
 }
