@@ -1,0 +1,15 @@
+{
+  "name": "dsikquiz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Konrad Linkowski <linkowski.konrad97@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
