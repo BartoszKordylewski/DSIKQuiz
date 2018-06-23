@@ -3,22 +3,27 @@ const $question = document.querySelector('#question')
 const $yes = document.querySelector('#yes')
 const $no = document.querySelector('#no')
 
+let gameArray = []
 let questionsCount
-let randomList
+let currentQuestionIndex = -1
+let answers = []
 init()
 
 function init() {
   axios.get('question')
   .then(({ data }) => {
     questionsCount = data
-    randomList = generateList()
+    gameArray = generateList()
     $yes.addEventListener('click', e => {
+      gameArray[currentQuestionIndex].playerAnswer = 'TAK'
       checkAnswer(1, getNextQuestion)
     })
     
     $no.addEventListener('click', e => {
+      gameArray[currentQuestionIndex].playerAnswer = 'NIE'
       checkAnswer(2, getNextQuestion)
     })
+    getNextQuestion()
   })
   .catch(err => {
     console.error(err)
@@ -27,7 +32,9 @@ function init() {
 function generateList() {
   const list = []
   for (let i = 0; i < questionsCount; i++) {
-    list.push(i)
+    list.push({
+      questionIndex: i 
+    })
   }
   function shuffleList(a) {
     let j, x, i;
@@ -43,10 +50,30 @@ function generateList() {
 }
 
 function checkAnswer(answer, cb) {
-  
-  cb()
+  axios.get(`answer/${gameArray[currentQuestionIndex].questionIndex}`)
+  .then(({ data }) => {
+    gameArray[currentQuestionIndex].trueAnswer = data
+    gameArray[currentQuestionIndex].point = data == answer ? 1: 0
+    cb()
+  })
+  .catch(err => {
+    console.error(err)
+  })
 }
 
 function getNextQuestion() {
+  currentQuestionIndex++
+  axios.get(`question/${gameArray[currentQuestionIndex].questionIndex}`)
+  .then(({ data }) => {
+    gameArray[currentQuestionIndex].question = data
+    render()
+  })
+  .catch(err => {
+    console.error(err)
+  })
+}
 
+function render() {
+  console.log(gameArray)
+  $question.innerText = `${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
 }
