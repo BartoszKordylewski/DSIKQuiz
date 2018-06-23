@@ -9,7 +9,9 @@
 </head>
 <body>
   <div class="wrapper">
-    <article class="main_content">
+    <article id="results_box" class="results"></article>
+    <article id="leaderboard_box" class="leaderboard hidden"></article>
+    <article id="qanda_box" class="main_content">
       <section class="question">
         <p id="question" class="question_content"></p>
       </section>
@@ -17,6 +19,9 @@
         <button id="yes" class="answer answer_yes">TAK</button>
         <button id="no" class="answer answer_no">NIE</button>
       </section>
+      <span id="correctanswer" class="correctanswer hidden"></span>
+      <div id="nextquestion" class="nextquestion hidden"></div>
+      <button id="finish" class="finish_button">zakończ i przejdź do wyników</button>
     </article>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>

@@ -14,9 +14,34 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.hidden {
+  display: none;
+}
+
+.leaderboard {
+
+}
+
+.finish_button {
+  display: block;
+  margin: 0 auto;
+}
+
+
+.nextquestion {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 .main_content {
   border-radius: 10px;
   width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 .question {
   display: flex;
@@ -35,7 +60,6 @@ body {
   width: 100px;
   height: 50px;
   background: #F2385A;
-  position: relative;
   margin: 30px;
   top: 100px;
   padding: 12px;
