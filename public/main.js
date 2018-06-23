@@ -2,6 +2,12 @@
 const $question = document.querySelector('#question')
 const $yes = document.querySelector('#yes')
 const $no = document.querySelector('#no')
+const $finish = document.querySelector('#finish')
+const $qanda_box = document.querySelector('#qanda_box')
+const $results_box = document.querySelector('#results_box')
+const $leaderboard_box = document.querySelector('#leaderboard_box')
+const $nextquestion = document.querySelector('#nextquestion')
+const $correctanswer = document.querySelector('#correctanswer')
 
 let gameArray = []
 let questionsCount
@@ -14,19 +20,30 @@ function init() {
   .then(({ data }) => {
     questionsCount = data
     gameArray = generateList()
-    $yes.addEventListener('click', e => {
-      gameArray[currentQuestionIndex].playerAnswer = 'TAK'
-      checkAnswer(1, getNextQuestion)
-    })
-    
-    $no.addEventListener('click', e => {
-      gameArray[currentQuestionIndex].playerAnswer = 'NIE'
-      checkAnswer(2, getNextQuestion)
-    })
+    assignEventListeners()
     getNextQuestion()
   })
   .catch(err => {
     console.error(err)
+  })
+}
+function assignEventListeners() {
+  $yes.addEventListener('click', e => {
+    gameArray[currentQuestionIndex].playerAnswer = 'TAK'
+    checkAnswer('TAK', showCorrectAnswer)
+  })
+  
+  $no.addEventListener('click', e => {
+    gameArray[currentQuestionIndex].playerAnswer = 'NIE'
+    checkAnswer('NIE', showCorrectAnswer)
+  })
+  $finish.addEventListener('click', e => {
+    
+  })
+  $nextquestion.addEventListener('click', e => {
+    getNextQuestion()
+    $correctanswer.classList.add('hidden')
+    $nextquestion.classList.add('hidden')
   })
 }
 function generateList() {
@@ -53,12 +70,23 @@ function checkAnswer(answer, cb) {
   axios.get(`answer/${gameArray[currentQuestionIndex].questionIndex}`)
   .then(({ data }) => {
     gameArray[currentQuestionIndex].trueAnswer = data
-    gameArray[currentQuestionIndex].point = data == answer ? 1: 0
+    if (data == answer) {
+      gameArray[currentQuestionIndex].point = 1
+      $correctanswer.innerText = 'poprawna odpowiedz'
+    } else {
+      gameArray[currentQuestionIndex].point = 0
+      $correctanswer.innerText = 'zła odpowiedz'
+    }
     cb()
   })
   .catch(err => {
     console.error(err)
   })
+}
+
+function showCorrectAnswer() {
+  $correctanswer.classList.remove('hidden')
+  $nextquestion.classList.remove('hidden')
 }
 
 function getNextQuestion() {
@@ -74,6 +102,5 @@ function getNextQuestion() {
 }
 
 function render() {
-  console.log(gameArray)
   $question.innerText = `${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
 }
