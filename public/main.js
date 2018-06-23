@@ -8,6 +8,11 @@ const $results_box = document.querySelector('#results_box')
 const $leaderboard_box = document.querySelector('#leaderboard_box')
 const $nextquestion = document.querySelector('#nextquestion')
 const $correctanswer = document.querySelector('#correctanswer')
+const $leaderboard = document.querySelector('#leaderboard')
+const $submit = document.querySelector('#submit')
+const $submit_wrapper = document.querySelector('#submit_wrapper')
+const $nickname = document.querySelector('#nickname')
+const $showleaderboard = document.querySelector('#showleaderboard')
 
 let gameArray = []
 let questionsCount
@@ -32,7 +37,6 @@ function assignEventListeners() {
     gameArray[currentQuestionIndex].playerAnswer = 'TAK'
     checkAnswer('TAK', showCorrectAnswer)
   })
-  
   $no.addEventListener('click', e => {
     gameArray[currentQuestionIndex].playerAnswer = 'NIE'
     checkAnswer('NIE', showCorrectAnswer)
@@ -44,6 +48,20 @@ function assignEventListeners() {
     getNextQuestion()
     $correctanswer.classList.add('hidden')
     $nextquestion.classList.add('hidden')
+  })
+  $submit.addEventListener('click', e => {
+    $submit_wrapper.classList.add('hidden')
+    submitHighScore()
+  })
+  $leaderboard.addEventListener('click', e => {
+    $leaderboard_box.classList.remove('hidden')
+    $results_box.classList.add('hidden')
+  })
+  $showleaderboard.addEventListener('click', e => {
+    $leaderboard_box.classList.remove('hidden')
+    $submit_wrapper.classList.add('hidden')
+    $qanda_box.classList.add('hidden')
+    showLeaderboard()
   })
 }
 function generateList() {
@@ -71,10 +89,10 @@ function checkAnswer(answer, cb) {
   .then(({ data }) => {
     gameArray[currentQuestionIndex].trueAnswer = data
     if (data == answer) {
-      gameArray[currentQuestionIndex].point = 1
+      gameArray[currentQuestionIndex].points = 1
       $correctanswer.innerText = 'poprawna odpowiedz'
     } else {
-      gameArray[currentQuestionIndex].point = 0
+      gameArray[currentQuestionIndex].points = 0
       $correctanswer.innerText = 'zła odpowiedz'
     }
     cb()
@@ -110,15 +128,68 @@ function render() {
 
 function showResults() {
   const results = gameArray.filter(el => el.playerAnswer != undefined)
-  let htmlString = ''
   results.forEach(el => {
-    htmlString += `<div>
+    let div = document.createElement('div')
+    div.innerHTML += `<div>
     <p>${el.question}</p>
     <p>Twoja odpowiedź: ${el.playerAnswer}</p>
     <p>Poprawna odpowiedź: ${el.trueAnswer}</p>
     </div>`
+    $results_box.appendChild(div)
   })
-  $results_box.innerHTML += htmlString
   $results_box.classList.remove('hidden')
   $qanda_box.classList.add('hidden')
+}
+
+function submitHighScore() {
+  axios.post('leaderboard', {
+    nickname: $nickname.value,
+    correct: calcPoints(),
+    questions: currentQuestionIndex
+  })
+  .then(() => {
+    showLeaderboard()
+  })
+  .catch(err => {
+    console.error(err)
+  })
+}
+
+function calcPoints() {
+  let sum = 0
+  gameArray.forEach(el => {
+    sum += el.points ? el.points : 0
+  })
+  return sum
+}
+
+function loadLeaderboard(cb) {
+  axios.get('leaderboard')
+  .then(({ data }) => {
+    cb(data)
+  })
+  .catch(err => {
+    console.error(err)
+  })
+}
+
+function showLeaderboard() {
+  loadLeaderboard(records => {
+    let table = document.createElement('table')
+    table.innerHTML += `<tr>
+      <th>nick</th>
+      <th>poprawnych odpowiedzi</th>
+      <th>liczba pytań</th>
+      <th>data</th>
+    </tr>`
+    records.forEach(el => {
+      table.innerHTML += `<tr>
+      <td>${el.nickname}</td>
+      <td>${el.correct}</td>
+      <td>${el.questions}</td>
+      <td>${new Date(el.date).toLocaleString()}</td>
+      </tr>`
+    })
+    $leaderboard_box.appendChild(table)
+  })
 }

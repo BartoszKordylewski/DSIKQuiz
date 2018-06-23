@@ -9,8 +9,15 @@
 </head>
 <body>
   <div class="wrapper">
-    <article id="results_box" class="results hidden"></article>
-    <article id="leaderboard_box" class="leaderboard hidden"></article>
+    <article id="results_box" class="results hidden">
+      <button id="leaderboard" class="leaderboard_button">zapisz swój wynik</button>
+    </article>
+    <article id="leaderboard_box" class="leaderboard hidden">
+      <div id="submit_wrapper" class="wrapper">
+        <label for="nickname"><input id="nickname" type="text"></label>
+        <button id="submit">wyślij</button>
+      </div>
+    </article>
     <article id="qanda_box" class="main_content">
       <section class="question">
         <p id="question" class="question_content"></p>
@@ -22,6 +29,7 @@
       <div id="nextquestion" class="nextquestion hidden">
         <p id="correctanswer" class="correctanswer hidden"></p>
       </div>
+      <button id="showleaderboard">pokaż najlepsze wyniki</button>
       <button id="finish" class="finish_button">zakończ i przejdź do wyników</button>
     </article>
   </div>
