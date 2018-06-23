@@ -14,6 +14,7 @@ const $submit_wrapper = document.querySelector('#submit_wrapper')
 const $nickname = document.querySelector('#nickname')
 const $showleaderboard = document.querySelector('#showleaderboard')
 const $back_button = document.querySelector('#back_button')
+const $percentage = document.querySelector('#percentage')
 
 let gameArray = []
 let questionsCount
@@ -130,6 +131,7 @@ function getNextQuestion() {
 
 function render() {
   $question.innerText = `${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
+  $percentage.innerText = `${currentQuestionIndex + 1} / ${questionsCount}`
 }
 
 function showResults() {
