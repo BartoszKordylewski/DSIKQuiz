@@ -38,7 +38,7 @@ function assignEventListeners() {
     checkAnswer('NIE', showCorrectAnswer)
   })
   $finish.addEventListener('click', e => {
-    
+    showResults()
   })
   $nextquestion.addEventListener('click', e => {
     getNextQuestion()
@@ -91,6 +91,9 @@ function showCorrectAnswer() {
 
 function getNextQuestion() {
   currentQuestionIndex++
+  if (currentQuestionIndex >= gameArray.length) {
+    return showResults()
+  }
   axios.get(`question/${gameArray[currentQuestionIndex].questionIndex}`)
   .then(({ data }) => {
     gameArray[currentQuestionIndex].question = data
@@ -103,4 +106,19 @@ function getNextQuestion() {
 
 function render() {
   $question.innerText = `${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
+}
+
+function showResults() {
+  const results = gameArray.filter(el => el.playerAnswer != undefined)
+  let htmlString = ''
+  results.forEach(el => {
+    htmlString += `<div>
+    <p>${el.question}</p>
+    <p>Twoja odpowiedź: ${el.playerAnswer}</p>
+    <p>Poprawna odpowiedź: ${el.trueAnswer}</p>
+    </div>`
+  })
+  $results_box.innerHTML += htmlString
+  $results_box.classList.remove('hidden')
+  $qanda_box.classList.add('hidden')
 }
