@@ -77,7 +77,7 @@ body {
 .question {
   display: flex;
   justify-content: center;
-  height: 100px;
+  min-height: 200px;
 }
 .question_content {
   font-size: 1.5rem;
