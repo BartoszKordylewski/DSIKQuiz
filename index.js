@@ -6,6 +6,7 @@ const app = express()
 const keys = require('./keys')
 const questions = require('./questions')
 const Record = require('./record')
+const Report = require('./report')
 const mongoose = require('mongoose')
 
 const PORT = process.env.PORT || 3000
@@ -72,6 +73,20 @@ app.post('/leaderboard', (req, res) => {
     questions: req.body.questions
   })
   newRecord.save()
+  .then(result => {
+    return res.sendStatus(200)
+  })
+  .catch(err => {
+    console.error(err)
+  })
+})
+
+app.post('/report', (req, res) => {
+  const newReport = new Report({
+    message: req.body.message,
+    question: req.body.question
+  })
+  newReport.save()
   .then(result => {
     return res.sendStatus(200)
   })

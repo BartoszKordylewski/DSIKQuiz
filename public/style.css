@@ -19,6 +19,14 @@ body {
   background-color: white;
 }
 
+.report {
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .results, .leaderboard {
   width: 100%;
   height: 100%;

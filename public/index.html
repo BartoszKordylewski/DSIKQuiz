@@ -36,14 +36,21 @@
         <p id="correctanswer" class="correctanswer hidden"></p>
       </div>
       <div class="options">
+        <p id="pages" class="nbsp"></p>
+        <p id="percentage" class="nbsp"></p>
+      </div>
+      <div class="options">
         <button id="showleaderboard" class="btn btn--gray">pokaż najlepsze wyniki</button>
-        <div>
-          <p id="pages" class="nbsp"></p>
-          <p id="percentage" class="nbsp"></p>
-        </div>
+        <button id="openreport" class="btn btn--gray">zgłoś błąd</button>
         <button id="finish" class="btn btn--gray">zakończ i przejdź do wyników</button>
       </div>
     </article>
+    <div id="report_box" class="report hidden">
+      <p id="question_report"></p>
+      <textarea name="message" id="report_message" cols="30" rows="10"></textarea>
+      <button id="report" class="btn btn--gray">wyślij</button>
+      <button id="closereport" class="btn btn--gray">zamknij</button>
+    </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   <script src="main.js"></script>

@@ -17,6 +17,12 @@ const $back_button = document.querySelector('#back_button')
 const $percentage = document.querySelector('#percentage')
 const $pages = document.querySelector('#pages')
 const $result_span = document.querySelector('#result')
+const $openreport = document.querySelector('#openreport')
+const $report_box = document.querySelector('#report_box')
+const $report_message = document.querySelector('#report_message')
+const $report = document.querySelector('#report')
+const $closereport = document.querySelector('#closereport')
+const $question_report = document.querySelector('#question_report')
 
 let gameArray = []
 let questionsCount
@@ -72,6 +78,17 @@ function assignEventListeners() {
     $leaderboard_box.classList.add('hidden')
     $qanda_box.classList.remove('hidden')
   })
+  $openreport.addEventListener('click', e => {
+    $report_box.classList.remove('hidden')
+    $qanda_box.classList.add('hidden')
+    $question_report.innerText = `
+      ${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
+  })
+  $closereport.addEventListener('click', e => {
+    $report_box.classList.add('hidden')
+    $qanda_box.classList.remove('hidden')
+  })
+  $report.addEventListener('click', sendReport)
 }
 function generateList() {
   const list = []
@@ -234,6 +251,20 @@ function showLeaderboard() {
     })
     table.innerHTML += `</tbody>`
     $leaderboard_box.appendChild(table)
+  })
+}
+
+function sendReport() {
+  axios.post('report', {
+    message: $report_message.value,
+    question: gameArray[currentQuestionIndex].questionIndex
+  })
+  .then(result => {
+    $report_box.classList.add('hidden')
+    $qanda_box.classList.remove('hidden')
+  })
+  .catch(err => {
+    console.error(err)
   })
 }
 
