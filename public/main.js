@@ -192,9 +192,21 @@ function loadLeaderboard(cb) {
 function showLeaderboard() {
   loadLeaderboard(records => {
     records.sort((a, b) => {
-      let ratio1 = a.questions ? a.correct / a.questions : 0
-      let ratio2 = b.questions ? b.correct / b.questions : 0
-      return  ratio1 > ratio2 ? -1 : ratio1 < ratio2 ? 1 : 0
+      let ratio1 = a.questions ? a.correct / a.questions : -1
+      let ratio2 = b.questions ? b.correct / b.questions : -1
+      if (ratio1 > ratio2) {
+        return -1
+      }
+      if (ratio1 < ratio2) {
+        return 1
+      }
+      if (a.questions > b.questions) {
+        return -1
+      }
+      if (a.questions < b.questions) {
+        return 1
+      }
+      return 0
     })
     let child = $leaderboard_box.querySelector('table')
     if (child) {
