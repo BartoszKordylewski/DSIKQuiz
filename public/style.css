@@ -19,6 +19,11 @@ body {
   background-color: white;
 }
 
+.openreportbutton {
+  position: absolute;
+  bottom: 10%;
+}
+
 .report {
   z-index: 1200;
   display: flex;

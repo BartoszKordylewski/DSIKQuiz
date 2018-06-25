@@ -23,10 +23,15 @@ const $report_message = document.querySelector('#report_message')
 const $report = document.querySelector('#report')
 const $closereport = document.querySelector('#closereport')
 const $question_report = document.querySelector('#question_report')
+const $openreport2 = document.querySelector('#openreport2')
+const $report_ans = document.querySelector('#report_ans')
+const $prev = document.querySelector('#prev')
+const $next = document.querySelector('#next')
 
 let gameArray = []
 let questionsCount
 let currentQuestionIndex = -1
+let reportIndex;
 
 init()
 
@@ -82,13 +87,45 @@ function assignEventListeners() {
     $report_box.classList.remove('hidden')
     $qanda_box.classList.add('hidden')
     $question_report.innerText = `
-      ${gameArray[currentQuestionIndex].questionIndex}. ${gameArray[currentQuestionIndex].question}`
+      ${gameArray[reportIndex].questionIndex}. ${gameArray[reportIndex].question}`
+    $report_ans.innerText = `
+    twoja odpowiedź ${gameArray[reportIndex].playerAnswer}
+    poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
+  })
+  $openreport2.addEventListener('click', e => {
+    $report_box.classList.remove('hidden')
+    $qanda_box.classList.add('hidden')
+    $question_report.innerText = `
+      ${gameArray[reportIndex].questionIndex}. ${gameArray[reportIndex].question}`
+    $report_ans.innerText = `
+      twoja odpowiedź ${gameArray[reportIndex].playerAnswer}
+      poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
   })
   $closereport.addEventListener('click', e => {
     $report_box.classList.add('hidden')
     $qanda_box.classList.remove('hidden')
   })
   $report.addEventListener('click', sendReport)
+  $prev.addEventListener('click', e => {
+    if (reportIndex > 0) {
+      reportIndex--
+    }
+    $question_report.innerText = `
+      ${gameArray[reportIndex].questionIndex}. ${gameArray[reportIndex].question}`
+    $report_ans.innerText = `
+      twoja odpowiedź ${gameArray[reportIndex].playerAnswer}
+      poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
+  })
+  $next.addEventListener('click', e => {
+    if (reportIndex < currentQuestionIndex) {
+      reportIndex++
+    }
+    $question_report.innerText = `
+      ${gameArray[reportIndex].questionIndex}. ${gameArray[reportIndex].question}`
+    $report_ans.innerText = `
+      twoja odpowiedź ${gameArray[reportIndex].playerAnswer}
+      poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
+  })
 }
 function generateList() {
   const list = []
@@ -116,10 +153,10 @@ function checkAnswer(answer, cb) {
     gameArray[currentQuestionIndex].trueAnswer = data
     if (data == answer) {
       gameArray[currentQuestionIndex].points = 1
-      $correctanswer.innerText = 'poprawna odpowiedz'
+      $correctanswer.innerText = 'poprawna odpowiedź'
     } else {
       gameArray[currentQuestionIndex].points = 0
-      $correctanswer.innerText = 'zła odpowiedz'
+      $correctanswer.innerText = 'zła odpowiedź'
     }
     cb()
   })
@@ -135,6 +172,7 @@ function showCorrectAnswer() {
 
 function getNextQuestion() {
   currentQuestionIndex++
+  reportIndex = currentQuestionIndex
   if (currentQuestionIndex >= gameArray.length) {
     return showResults()
   }
