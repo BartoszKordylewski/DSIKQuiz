@@ -257,7 +257,7 @@
   { "Czy most przezroczysty uczy sie adresow MAC?" : "TAK" },
   { "Protokoly TCP i UDP CZy Algorytm JOhansena = alg przesuwanego okna?" : "NIE" },
   { "Protokoly TCP i UDP CZy UDP wykorzystuje 3 stanowe uzg polaczenia?" : "NIE" },
-  { "Protokoly TCP i UDP CZy Mecahnizm slidding wind wykorzystuje komunikat z?" : "NIE" },
+  { "Protokoly TCP i UDP CZy Mecahnizm slidding wind wykorzystuje komunikat z ACK, akt kredytem i wartoscią  timeout?" : "NIE" },
   { "Protokoly TCP i UDP CZy Mozliwe jest przeslanie segmentow > 65535 B?" : "TAK" },
   { "Protokoly TCP i UDP CZy wielkość okna może być > 65535?" : "TAK" },
   { "Protokoly TCP i UDP CZy lepiej gdy wielkość okna jest mniejsza?" : "NIE" },
