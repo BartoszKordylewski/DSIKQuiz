@@ -95,6 +95,10 @@ function assignEventListeners() {
   })
   $back_button.addEventListener('click', e => {
     canPlay = true
+    gameArray = generateList()
+    currentQuestionIndex = -1
+    getNextQuestion()
+    $nextquestion.classList.add('hidden')
     $leaderboard_box.classList.add('hidden')
     $qanda_box.classList.remove('hidden')
   })
@@ -256,7 +260,6 @@ function submitHighScore() {
     questions: currentQuestionIndex
   })
   .then(() => {
-    gameArray = generateList()
     showLeaderboard()
   })
   .catch(err => {
