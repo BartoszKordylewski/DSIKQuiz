@@ -336,7 +336,7 @@ function showLeaderboard() {
 function sendReport() {
   axios.post('report', {
     message: $report_message.value,
-    question: gameArray[currentQuestionIndex].questionIndex
+    question: gameArray[reportIndex].questionIndex
   })
   .then(result => {
     $report_box.classList.add('hidden')
