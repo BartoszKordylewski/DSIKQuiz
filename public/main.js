@@ -85,12 +85,14 @@ function assignEventListeners() {
     $leaderboard_box.classList.remove('hidden')
     $submit_wrapper.classList.remove('hidden')
     $results_box.classList.add('hidden')
+    $qanda_box.classList.add('hidden')
   })
   $showleaderboard.addEventListener('click', e => {
     canPlay = false
     $leaderboard_box.classList.remove('hidden')
     $submit_wrapper.classList.add('hidden')
     $qanda_box.classList.add('hidden')
+    $results_box.classList.add('hidden')
     showLeaderboard()
   })
   $back_button.addEventListener('click', e => {
