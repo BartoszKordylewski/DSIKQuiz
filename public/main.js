@@ -31,7 +31,12 @@ const $next = document.querySelector('#next')
 let gameArray = []
 let questionsCount
 let currentQuestionIndex = -1
-let reportIndex;
+let reportIndex
+let canPlay = true
+const characters = [
+  ['t', 'T', '0', 'p', 'P', 'a', 'A'],
+  ['f', 'F', '1', 'd', 'D']
+]
 
 init()
 
@@ -49,12 +54,18 @@ function init() {
 }
 function assignEventListeners() {
   $yes.addEventListener('click', e => {
-    gameArray[currentQuestionIndex].playerAnswer = 'TAK'
-    checkAnswer('TAK', showCorrectAnswer)
+    if (canPlay) {
+      canPlay = false
+      gameArray[currentQuestionIndex].playerAnswer = 'TAK'
+      checkAnswer('TAK', showCorrectAnswer)
+    }
   })
   $no.addEventListener('click', e => {
-    gameArray[currentQuestionIndex].playerAnswer = 'NIE'
-    checkAnswer('NIE', showCorrectAnswer)
+    if (canPlay) {
+      canPlay = false
+      gameArray[currentQuestionIndex].playerAnswer = 'NIE'
+      checkAnswer('NIE', showCorrectAnswer)
+    }
   })
   $finish.addEventListener('click', e => {
     showResults()
@@ -63,27 +74,32 @@ function assignEventListeners() {
     getNextQuestion()
     $correctanswer.classList.add('hidden')
     $nextquestion.classList.add('hidden')
+    canPlay = true
   })
   $submit.addEventListener('click', e => {
     $submit_wrapper.classList.add('hidden')
     submitHighScore()
   })
   $leaderboard.addEventListener('click', e => {
+    canPlay = false
     $leaderboard_box.classList.remove('hidden')
     $submit_wrapper.classList.remove('hidden')
     $results_box.classList.add('hidden')
   })
   $showleaderboard.addEventListener('click', e => {
+    canPlay = false
     $leaderboard_box.classList.remove('hidden')
     $submit_wrapper.classList.add('hidden')
     $qanda_box.classList.add('hidden')
     showLeaderboard()
   })
   $back_button.addEventListener('click', e => {
+    canPlay = true
     $leaderboard_box.classList.add('hidden')
     $qanda_box.classList.remove('hidden')
   })
   $openreport.addEventListener('click', e => {
+    canPlay = false
     $report_box.classList.remove('hidden')
     $qanda_box.classList.add('hidden')
     $question_report.innerText = `
@@ -93,6 +109,7 @@ function assignEventListeners() {
     poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
   })
   $openreport2.addEventListener('click', e => {
+    canPlay = false
     $report_box.classList.remove('hidden')
     $qanda_box.classList.add('hidden')
     $question_report.innerText = `
@@ -102,6 +119,7 @@ function assignEventListeners() {
       poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
   })
   $closereport.addEventListener('click', e => {
+    canPlay = true
     $report_box.classList.add('hidden')
     $qanda_box.classList.remove('hidden')
   })
@@ -125,6 +143,25 @@ function assignEventListeners() {
     $report_ans.innerText = `
       twoja odpowiedź ${gameArray[reportIndex].playerAnswer}
       poprawna odpowiedź ${gameArray[reportIndex].trueAnswer}`
+  })
+  document.body.addEventListener('keypress', e => {
+    if (canPlay) {
+      let key = String.fromCharCode(e.keyCode)
+      if (characters[0].includes(key)) {
+        canPlay = false
+        gameArray[currentQuestionIndex].playerAnswer = 'TAK'
+        checkAnswer('TAK', showCorrectAnswer)
+      } else if (characters[1].includes(key)) {
+        canPlay = false
+        gameArray[currentQuestionIndex].playerAnswer = 'NIE'
+        checkAnswer('NIE', showCorrectAnswer)
+      }
+    } else {
+      getNextQuestion()
+      $correctanswer.classList.add('hidden')
+      $nextquestion.classList.add('hidden')
+      canPlay = true
+    }
   })
 }
 function generateList() {
@@ -174,6 +211,7 @@ function getNextQuestion() {
   currentQuestionIndex++
   reportIndex = currentQuestionIndex
   if (currentQuestionIndex >= gameArray.length) {
+    canPlay = false
     return showResults()
   }
   axios.get(`question/${gameArray[currentQuestionIndex].questionIndex}`)
@@ -300,6 +338,7 @@ function sendReport() {
   .then(result => {
     $report_box.classList.add('hidden')
     $qanda_box.classList.remove('hidden')
+    canPlay = true
   })
   .catch(err => {
     console.error(err)
