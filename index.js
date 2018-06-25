@@ -81,6 +81,25 @@ app.post('/leaderboard', (req, res) => {
   })
 })
 
+app.get('/reports', (req, res) => {
+  Report.find()
+  .then(reports => {
+    return res.json(reports.map(rep => {
+      return {
+        question: {
+          id: rep.question,
+          title: Object.keys(questions[rep.question])[0]
+        },
+        message: rep.message,
+        date: rep.date
+      }
+    }))
+  })
+  .catch(err => {
+    console.error(err)
+  })
+})
+
 app.post('/report', (req, res) => {
   const newReport = new Report({
     message: req.body.message,
