@@ -166,7 +166,8 @@ function assignEventListeners() {
       getNextQuestion()
       $correctanswer.classList.add('hidden')
       $nextquestion.classList.add('hidden')
-      canPlay = true
+      if (currentQuestionIndex < gameArray.length)
+        canPlay = true
     }
   })
 }
@@ -214,12 +215,12 @@ function showCorrectAnswer() {
 }
 
 function getNextQuestion() {
-  currentQuestionIndex++
-  reportIndex = currentQuestionIndex
-  if (currentQuestionIndex >= gameArray.length) {
+  if (currentQuestionIndex >= gameArray.length - 1) {
     canPlay = false
     return showResults()
   }
+  currentQuestionIndex++
+  reportIndex = currentQuestionIndex
   axios.get(`question/${gameArray[currentQuestionIndex].questionIndex}`)
   .then(({ data }) => {
     gameArray[currentQuestionIndex].question = data
@@ -248,8 +249,8 @@ function showResults() {
     $results_box.appendChild(div)
   })
   $result_span.innerText = `
-  twój wynik to ${calcPoints()} / ${currentQuestionIndex}
-  ${(calcPoints() / currentQuestionIndex * 100).toFixed(2)}%
+  twój wynik to ${calcPoints()} / ${currentQuestionIndex + 1}
+  ${(calcPoints() / (currentQuestionIndex + 1) * 100).toFixed(2)}%
   `
   $results_box.classList.remove('hidden')
   $qanda_box.classList.add('hidden')
