@@ -34,8 +34,8 @@ let currentQuestionIndex = -1
 let reportIndex
 let canPlay = true
 const characters = [
-  ['t', 'T', '0', 'p', 'P', 'a', 'A'],
-  ['f', 'F', '1', 'd', 'D']
+  ['t', 'T', '1', 'p', 'P', 'a', 'A'],
+  ['f', 'F', '2', 'd', 'D']
 ]
 
 init()
