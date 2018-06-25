@@ -180,7 +180,6 @@
   { "Czy(LAN)Czy 803.3z w trybie full duplex stosuje CSMA/CD?" : "TAK" },
   { "Czy(LAN)Algorytm STA jest wykorzystywany w przełącznikach?" : "TAK" },
   { "Czy(LAN)Czy zasięg sieci lokalnej pokrywa się z zasięgiem domeny kolizyjnej?" : "NIE" },
-  { "Czy(LAN) zasięg sieci lokalnej pokrywa się z zasięgiem ramek rozgłoszeniowych?" : "NIE" },
   { "Czy(LAN) Czy złącze AUI korzysta z okablowania TP?" : "TAK" },
   { "(LAN) Czy sieci lokalne stanowią podstawę telekomunikacji?" : "NIE" },
   { "(LAN) Czy standard okablowania TIA/EIA obejmuje DIN?" : "TAK" },
